@@ -1,0 +1,62 @@
+exp_name: realworld2016_singletask_exp
+seed: [2020]
+backbone: MLP
+num_tasks: 8
+num_action_types: 8
+num_views: 7
+optimizer: Adam
+window_size: 250
+num_sensors: 3
+model_name: single_model_best
+
+paths:
+  log_dir: ../experiments/logs/
+  result_dir: ../experiments/results
+  checkpoint_dir: ../experiments/checkpoints
+
+dataload:
+  dataset: har2016
+  dataroot: "./data/realworld2016_dataset"
+
+train:
+  mode: sup
+  optimizer: Adam
+  criterion: cross_entropy
+  patience: 1000
+  sup_batch_size: 16
+  unsup_batch_size: 24
+  val_batch_size: 32
+  epoch: 150
+  warm_up_iters: 4000
+  lr: 3e-4
+  is_weighted_sampling: False
+  weight_decay: 1e-6
+  device: cuda:0
+  init_method: random
+  temperature: 1.
+  is_tsa: False
+  tsa_schedule: log_schedule
+  uda_softmax_temp: 0.85
+  uda_confidence_thresh: 0.35
+  uda_coefficient: 1.0
+  total_steps: 3600
+  # policy_lr: 0.01
+  # backbone_lr: 0.001
+  # reg_w: 0.05
+  # reg_w_hamming: 0.05
+  # print_freq: 100
+  # val_freq: 400
+  # decay_lr_freq: 4000
+  # decay_lr_rate: 0.5
+  # decay_temp_freq: 100
+  # init_temp: 5
+  # decay_temp: 0.965
+  # resume: False
+  # retrain_resume: False
+  # policy_iter: best
+  # which_iter: warmup
+  # init_method: equal
+  # hard_sampling: False
+
+test:
+  which_iter: best
